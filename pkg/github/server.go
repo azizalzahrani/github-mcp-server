@@ -80,6 +80,17 @@ func NewServer(getClient GetClientFn, version string, readOnly bool, t translati
 	// Add GitHub tools - Code Scanning
 	s.AddTool(GetCodeScanningAlert(getClient, t))
 	s.AddTool(ListCodeScanningAlerts(getClient, t))
+
+	// Add GitHub tools - Discussions
+	s.AddTool(ListDiscussions(getClient, t))
+	s.AddTool(GetDiscussion(getClient, t))
+	s.AddTool(GetDiscussionCategories(getClient, t))
+	s.AddTool(GetDiscussionComments(getClient, t))
+	if !readOnly {
+		s.AddTool(AddDiscussionComment(getClient, t))
+		s.AddTool(CreateDiscussion(getClient, t))
+	}
+
 	return s
 }
 
